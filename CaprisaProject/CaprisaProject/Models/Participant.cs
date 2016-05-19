@@ -39,6 +39,9 @@ namespace CaprisaProject.Models
         [Display(Name ="Residence Site")]
         public Site Site { get; set; }
 
+        [Display(Name = "Status")]
+        public string Status { get; set; }
+
         public virtual ICollection <Enrollment> Enrollments { get; set; }
         public virtual ICollection <Study> Studies { get; set; } 
     }

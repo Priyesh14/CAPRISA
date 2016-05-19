@@ -49,7 +49,7 @@ namespace CaprisaProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudyCode,Title")] Study study)
+        public ActionResult Create([Bind(Include = "StudyCode,Title,Status")] Study study)
         {
             try
             {
@@ -60,9 +60,9 @@ namespace CaprisaProject.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch(RetryLimitExceededException)
+            catch (RetryLimitExceededException)
             {
-                ModelState.AddModelError("","Unable to save changes to Create Study, Please try again, if problem persists, contact system admin");
+                ModelState.AddModelError("", "Unable to save changes to Create Study, Please try again, if problem persists, contact system admin");
             }
             return View(study);
         }
@@ -87,7 +87,7 @@ namespace CaprisaProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudyCode,Title")] Study study)
+        public ActionResult Edit([Bind(Include = "StudyCode,Title,Status")] Study study)
         {
             try
             {

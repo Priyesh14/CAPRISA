@@ -27,6 +27,7 @@ namespace CaprisaProject.Controllers
             List<Participant> part = db.Participants.ToList();
             return View(part);
         }
+
         [Authorize]
         public ActionResult Index(string sortOrder, string searchString)
         {
@@ -36,13 +37,13 @@ namespace CaprisaProject.Controllers
             var participant = from p in db.Participants
                               select p;
 
-            if(!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
                 participant = participant.Where(p => p.ParticipantCode.Contains(searchString) || p.PhoneNumber.Contains(searchString));
-                
+
             }
-            
-                
+
+
             switch (sortOrder)
             {
                 case "name_desc":
@@ -54,9 +55,9 @@ namespace CaprisaProject.Controllers
                 case "site_desc":
                     participant = participant.OrderBy(p => p.Site);
                     break;
-                //default:
-                //    participant = participant.OrderBy(p => p.PhoneNumber);
-                //    break;
+                    //default:
+                    //    participant = participant.OrderBy(p => p.PhoneNumber);
+                    //    break;
             }
             return View(participant.ToList());
         }
@@ -75,7 +76,7 @@ namespace CaprisaProject.Controllers
             }
             return View(participant);
         }
-        
+
         // GET: Participants/Create
         public ActionResult Create()
         {
@@ -87,9 +88,10 @@ namespace CaprisaProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ParticipantCode,EnrollmentDate,PhoneNumber,Site")] Participant participant)
+        public ActionResult Create([Bind(Include = "ParticipantCode,EnrollmentDate,PhoneNumber,Site,Status")] Participant participant)
         {
-            try {
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     db.Participants.Add(participant);
@@ -97,9 +99,9 @@ namespace CaprisaProject.Controllers
                     return RedirectToAction("Create", "Enrollments");
                 }
             }
-            catch(RetryLimitExceededException)
+            catch (RetryLimitExceededException)
             {
-                ModelState.AddModelError("","Unable to save changes, please try again, or if the problem persists, contact your system admin/developer");
+                ModelState.AddModelError("", "Unable to save changes, please try again, or if the problem persists, contact your system admin/developer");
             }
             return View(participant);
         }
@@ -124,14 +126,16 @@ namespace CaprisaProject.Controllers
         {
             return new Rotativa.ActionAsPdf("GetParticipants");
         }
+
         // POST: Participants/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ParticipantCode,EnrollmentDate,PhoneNumber,Site")] Participant participant)
+        public ActionResult Edit([Bind(Include = "ParticipantCode,EnrollmentDate,PhoneNumber,Site,Status")] Participant participant)
         {
-            try {
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     db.Entry(participant).State = EntityState.Modified;
@@ -170,16 +174,24 @@ namespace CaprisaProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            try {
+            try
+            {
                 Participant participant = db.Participants.Find(id);
                 db.Participants.Remove(participant);
                 db.SaveChanges();
             }
-            catch(RetryLimitExceededException)
+            catch (RetryLimitExceededException)
             {
                 ModelState.AddModelError("", "Unable to delete, please try again, if problem persists, contact system admin");
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult getStatus(Status status)
+        {
+            Participant p = new Participant();
+            p.Status = status.ToString();
+            return View(p.Status);
         }
 
         protected override void Dispose(bool disposing)

@@ -1,9 +1,7 @@
 ﻿@model CaprisaProject.Models.Participant
-
 @{
     ViewBag.Title = "Details";
 }
-
 
 <div>
     <h4>Participant Details</h4>
@@ -18,31 +16,34 @@
         <dt>
             @Html.DisplayNameFor(model => model.EnrollmentDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.EnrollmentDate)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Site)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Site)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Enrollments)
         </dt>
         <dd>
-            <br/>
+            <br />
             <table class="table">
                 <tr>
                     <th>Study Involved In</th>
@@ -50,15 +51,14 @@
                 </tr>
                 @foreach (var item in Model.Enrollments)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Study.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Site)
-                    </td>
-
-                </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Study.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Site)
+                        </td>
+                    </tr>
                 }
             </table>
         </dd>
@@ -68,3 +68,4 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.ParticipantCode }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
